@@ -1,0 +1,17 @@
+--      Ermitteln Sie Informationen zu allen Lehrer, deren Nachnamen aus genau 9 Zeichen bestehen.
+SELECT *
+FROM t_lehrer
+WHERE name ~* '[a-z]{9,9}';
+
+--      Ermitteln Sie Informationen zu allen Lehrer, deren Nachnamen aus wenigstens sieben Zeichen besteht,
+--      es können auch mehr sein. Es ist sicherzustellen, dass sämtliche Zeichen Buchstaben des Alphabets inklusive
+--      Umlauten sowie Eszett sein müssen.
+SELECT *
+FROM t_lehrer
+WHERE name ~* '[a-z]{7,}';
+
+--      Ermitteln Sie Informationen zu dem Lehrer, dessen mit dem MD5-Algorithmus gehashtes Passwort
+--      3a29c08f700c1e95242dd458c28321ab lautet.
+SELECT *
+FROM t_lehrer
+WHERE MD5(passwort) = '3a29c08f700c1e95242dd458c28321ab';

@@ -10,11 +10,12 @@ FROM (SELECT *
     ON Tabelle1.id = Tabelle2.id
 WHERE (Tabelle1.name IS NOT NULL) OR (Tabelle2.typ IS NOT NULL);
 
---        (SELECT * from t_lehrer, t_ressource WHERE fk_t_ressource_id=id) AND
--- (SELECT * FROM t_ort, t_ressource WHERE fk_t_ressource_id=id) ;
-
 --      Ermitteln Sie Informationen zu allen Lehrer, in deren Nachnamen der Buchstabe ‚m' bzw. ‚M' nicht vorkommt.
-
+SELECT *
+FROM t_lehrer
+WHERE name !~* '[m]' AND name !~* '[M]';
 
 --      Ermitteln Sie Informationen zu allen Lehrer, deren Nachnamen wenigstens acht Zeichen umfassen.
-
+SELECT *
+FROM t_lehrer
+WHERE name ~* '[a-z]{8,}';

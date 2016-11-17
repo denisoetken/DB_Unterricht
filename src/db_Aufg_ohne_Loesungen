@@ -48,7 +48,6 @@ SELECT *
 FROM t_lehrer
 ORDER BY anrede DESC, name ASC, vorname ASC;
 
-
 --      Lassen Sie sich sämtliche Wochentage einmal anzeigen.
 SELECT wochentag
 FROM t_stunde
@@ -113,20 +112,36 @@ SELECT (SELECT count(t_lehrer.fk_t_ressource_id)
         FROM t_lehrer) +
        (SELECT count(t_ort.fk_t_ressource_id)
         FROM t_ort) AS "Anzahl aller Ressourcen IDs von Orten und Lehrern:"
---      Ermitteln Sie sämtliche Ressourcen IDs, sowie die zugehörigen weiteren Informationen, falls es sich bei den Ressourcen um Orte oder Lehrer handelt.
-
+--      Ermitteln Sie sämtliche Ressourcen IDs, sowie die zugehörigen weiteren Informationen,
+--      falls es sich bei den Ressourcen um Orte oder Lehrer handelt.
+SELECT *
+FROM (SELECT *
+      FROM t_ressource
+        LEFT JOIN t_lehrer ON fk_t_ressource_id = t_ressource.id) AS Tabelle1
+  LEFT JOIN (SELECT *
+             FROM t_ressource
+               LEFT JOIN t_ort ON fk_t_ressource_id = t_ressource.id) AS Tabelle2
+    ON Tabelle1.id = Tabelle2.id
+WHERE (Tabelle1.name IS NOT NULL) OR (Tabelle2.typ IS NOT NULL);
 
 --      Ermitteln Sie Informationen zu allen Lehrer, in deren Nachnamen der Buchstabe ‚m' bzw. ‚M' nicht vorkommt.
-
+SELECT *
+FROM t_lehrer
+WHERE name !~* '[m]' AND name !~* '[M]';
 
 --      Ermitteln Sie Informationen zu allen Lehrer, deren Nachnamen wenigstens acht Zeichen umfassen.
-
+SELECT *
+FROM t_lehrer
+WHERE name ~* '[a-z]{8,}';
 
 --      Ermitteln Sie Informationen zu allen Lehrer, deren Nachnamen aus genau 9 Zeichen bestehen.
 
 
---      Ermitteln Sie Informationen zu allen Lehrer, deren Nachnamen aus wenigstens sieben Zeichen besteht, es können auch mehr sein. Es ist sicherzustellen, dass sämtliche Zeichen Buchstaben des Alphabets inklusive Umlauten sowie Eszett sein müssen.
+--      Ermitteln Sie Informationen zu allen Lehrer, deren Nachnamen aus wenigstens sieben Zeichen besteht,
+--      es können auch mehr sein. Es ist sicherzustellen, dass sämtliche Zeichen Buchstaben des Alphabets inklusive
+--      Umlauten sowie Eszett sein müssen.
 
 
---      Ermitteln Sie Informationen zu dem Lehrer, dessen mit dem MD5-Algorithmus gehashtes Passwort 3a29c08f700c1e95242dd458c28321ab lautet.
+--      Ermitteln Sie Informationen zu dem Lehrer, dessen mit dem MD5-Algorithmus gehashtes Passwort
+--      3a29c08f700c1e95242dd458c28321ab lautet.
 
