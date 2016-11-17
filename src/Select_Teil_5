@@ -1,0 +1,8 @@
+--      Ermitteln Sie sämtliche Ressourcen IDs, sowie die zugehörigen weiteren Informationen, falls es sich bei den Ressourcen um Orte oder Lehrer handelt.
+
+
+--      Ermitteln Sie Informationen zu allen Lehrer, in deren Nachnamen der Buchstabe ‚m' bzw. ‚M' nicht vorkommt.
+
+
+--      Ermitteln Sie Informationen zu allen Lehrer, deren Nachnamen wenigstens acht Zeichen umfassen.
+

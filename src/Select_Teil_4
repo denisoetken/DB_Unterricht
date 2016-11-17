@@ -19,9 +19,7 @@ SELECT ((SELECT count(t_lehrer.fk_t_ressource_id)
 FROM t_lehrer, t_ort
 GROUP BY "Anzahl aller Ressourcen IDs von Orten und Lehrern:";
 
-SELECT ((SELECT count(t_lehrer.fk_t_ressource_id)
-         FROM t_lehrer) +
-        (SELECT count(t_ort.fk_t_ressource_id)
-         FROM t_ort)) AS "Anzahl aller Ressourcen IDs von Orten und Lehrern:"
-FROM t_lehrer, t_ort
-GROUP BY "Anzahl aller Ressourcen IDs von Orten und Lehrern:";
+SELECT (SELECT count(t_lehrer.fk_t_ressource_id)
+        FROM t_lehrer) +
+       (SELECT count(t_ort.fk_t_ressource_id)
+        FROM t_ort) AS "Anzahl aller Ressourcen IDs von Orten und Lehrern:"
