@@ -1,0 +1,20 @@
+--      Ermitteln Sie sämtliche Informationen zu allen Lehrern, deren Ressourcen_ID sich im geschlossenen
+--      Intervall [50, 60] befindet. Zudem müssen Sie den Dienstgrad eines Majors besitzen.
+SELECT *
+FROM t_lehrer
+WHERE anrede = 'M' AND fk_t_ressource_id BETWEEN 50 AND 60;
+
+--      Ermitteln Sie sämtliche Informationen zu allen Lehrern, die keine Klassenlehrer sind.
+--      Zudem müssen sie entweder den Dienstgrad Oberstleutnant besitzen oder aber Zivilisten sein.
+SELECT *
+FROM t_lehrer
+WHERE fk_t_klasse_fk_t_ressource_id IS NULL AND (anrede = 'OTL' OR anrede = 'Hr.' OR anrede = 'Dr.' OR anrede = 'Fr.');
+
+--      Sie kennen aus der technischen Informatik den Logikbaustein XOR, der für die
+--      Entweder-Oder-Verknüpfung steht. Ermittlen Sie basierend auf dieser Logik eine Abfrage,
+--      die Ihnen sämtliche Informationen zu allen Lehrkräften anzeigt, deren Ressourcen_ID sich entweder
+--      im geschlossenen Intervall [55, 65] befindet, oder die den Dienstgrad Oberstleutnant besitzen.
+SELECT *
+FROM t_lehrer
+WHERE (fk_t_ressource_id BETWEEN 55 AND 65 AND anrede != 'OTL') OR
+      (fk_t_ressource_id NOT BETWEEN 55 AND 65 AND anrede = 'OTL');

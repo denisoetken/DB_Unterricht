@@ -1,0 +1,116 @@
+--     Aufgaben db_forz
+
+--      Implementieren Sie die Datenbank db_forz_alternativ mittels des SQL-Skripts.
+
+--      Lesen Sie die zugehörigen Daten ein.
+
+--      Bei genauerem Hinsehen bemerken Sie, dass eine beliebige Zeichenfolge als Wochentag eingegeben werden kann. Dies gefährdet jedoch die Integrität Ihrer Datenbank. Analysieren Sie Ihre eingelesenen Daten und ergänzen Sie darauf basierend die Tabelle t_stunde um einen geeigneten Constraint. (Hinweis: Man kann Tabellen nachträglich mittels des Befehls alter table ergänzen)
+ALTER TABLE t_stunde
+  ADD CONSTRAINT wochentag CHECK (wochentag IN ('Mo', 'Di', 'Mi', 'Do', 'Fr'));
+
+--      Es besteht auch die Möglichkeit, nachträglich bereits bestehende Constraints zu entfernen. Entfernen Sie Ihren gerade definierten Constraint und vergewissern Sie sich durch eine Eingabe, dass die Regelung nicht mehr greift. Ergänzen Sie anschließend die Tabelle wieder um den gerade entfernten Constraint.
+ALTER TABLE t_stunde
+  DROP CONSTRAINT wochentag;
+
+--      Analog können völlig beliebige Beginn- und Endzeiten für die einzelnen Stundenblöcke hinterlegt werden. Schränken Sie dies ebenfalls auf die aktuelle gültigen Beginn- sowie Endezeiten ein!
+ALTER TABLE t_stunde
+  ADD CONSTRAINT beginn CHECK (beginn IN
+                               ('07:25:00', '08:15:00', '09:25:00', '09:30:00', '10:15:00', '10:20:00', '11:15:00', '12:05:00', '13:00:00', '13:50:00', '14:45:00', '15:35:00'));
+ALTER TABLE t_stunde
+  ADD CONSTRAINT ende CHECK (ende IN
+                             ('08:10:00', '09:00:00', '10:10:00', '10:15:00', '11:00:00', '11:05:00', '12:00:00', '12:50:00', '13:45:00', '14:35:00', '15:30:00', '16:20:00'));
+
+--      Prüfen Sie zudem, ob sich die Datenbank um einen Constraint ergänzen lässt, der in Widerspruch zu bereits hinterlegten Daten  steht.
+--      Nein (Zeiten, die schon eingetragen sind)
+--      Freitag ist eine Stunde eingetragen, die nach Routinestundenplan gar nicht existiert. Löschen Sie sie!
+SELECT *
+FROM t_stunde
+WHERE wochentag = 'Fr';
+DELETE FROM t_stunde
+WHERE wochentag = 'Fr' AND beginn = '11:15:00' AND ende = '12:00:00';
+DELETE FROM t_stunde
+WHERE
+  wochentag = 'Fr' AND
+  (beginn != '07:25:00' AND beginn != '08:15:00' AND beginn != '09:25:00' AND beginn != '10:15:00');
+--      Lassen Sie sich sämtliche Daten zu Lehrern anzeigen. Sortieren Sie dabei aufsteigend nach Nachnamen, sowie, bei identischen Nachname, absteigend nach zugehöriger RessourcenID.
+SELECT *
+FROM t_lehrer
+ORDER BY name ASC, fk_t_ressource_id DESC;
+
+--      Ermitteln Sie sämtliche Informationen  zu Lehrern, sortieren Sie dabei absteigend nach der Identifikationsnummer der zugehörigen Klasse. Lehrer, die keine Klassenlehrer sind sollen  zuerst angezeigt werden.
+SELECT *
+FROM t_lehrer
+ORDER BY fk_t_klasse_fk_t_ressource_id DESC;
+
+--      Ermitteln Sie sämtliche Informationen  zu Lehrern, sortieren Sie dabei absteigend nach der Anrede,
+--      aufsteigend nach dem Nachnamen sowie aufsteigend nach dem Vornamen.
+SELECT *
+FROM t_lehrer
+ORDER BY anrede DESC, name ASC, vorname ASC;
+
+
+--      Lassen Sie sich sämtliche Wochentage einmal anzeigen.
+SELECT wochentag
+FROM t_stunde
+GROUP BY wochentag;
+
+--      Lassen Sie sich zu jedem Wochentag die Uhrzeit anzeigen, zu der die letzte Stunde des jeweiligen Tages endet. Sortieren Sie die Wochentage absteigend. Arbeiten Sie ohne Gruppierung!
+SELECT DISTINCT ON (wochentag)
+  wochentag,
+  ende
+FROM t_stunde
+ORDER BY wochentag DESC, ende DESC;
+
+--      Ermitteln Sie zu jeder Personengruppe, basierend auf der Anrede, die jeweils höchste zugeordnete Ressourcen_ID, geben Sie diese beiden Werte aus! Arbeiten Sie ohne Gruppierung!
+SELECT DISTINCT ON (anrede)
+  anrede,
+  fk_t_ressource_id
+FROM t_lehrer
+ORDER BY anrede DESC, fk_t_ressource_id DESC;
+--      Ermitteln Sie sämtliche Informationen zu allen Lehrern, deren Ressourcen_ID sich im geschlossenen
+--      Intervall [50, 60] befindet. Zudem müssen Sie den Dienstgrad eines Majors besitzen.
+SELECT *
+FROM t_lehrer
+WHERE anrede = 'M' AND fk_t_ressource_id BETWEEN 50 AND 60;
+
+--      Ermitteln Sie sämtliche Informationen zu allen Lehrern, die keine Klassenlehrer sind.
+--      Zudem müssen sie entweder den Dienstgrad Oberstleutnant besitzen oder aber Zivilisten sein.
+SELECT *
+FROM t_lehrer
+WHERE fk_t_klasse_fk_t_ressource_id IS NULL AND (anrede = 'OTL' OR anrede = 'Hr.' OR anrede = 'Dr.' OR anrede = 'Fr.');
+
+--      Sie kennen aus der technischen Informatik den Logikbaustein XOR, der für die
+--      Entweder-Oder-Verknüpfung steht. Ermittlen Sie basierend auf dieser Logik eine Abfrage,
+--      die Ihnen sämtliche Informationen zu allen Lehrkräften anzeigt, deren Ressourcen_ID sich entweder
+--      im geschlossenen Intervall [55, 65] befindet, oder die den Dienstgrad Oberstleutnant besitzen.
+SELECT *
+FROM t_lehrer
+WHERE (fk_t_ressource_id BETWEEN 55 AND 65 AND anrede != 'OTL') OR
+      (fk_t_ressource_id NOT BETWEEN 55 AND 65 AND anrede = 'OTL');
+
+--      Erzeugen Sie die nachfolgende Ausgabe:
+
+
+--      Lassen Sie sich sämtliche Informationen zu allen Lehrkräften ausgeben. Erzeugen Sie zudem mittels der Abfrage eine neue Spalte nutzername, mit den abgebildeten Inhalten und der Formattierung:
+
+
+--      Ermitteln Sie die Anzahl sämtlicher Ressourcen_Ids, die auf Orte sowie Lehrer entfallen.
+
+
+--      Ermitteln Sie sämtliche Ressourcen IDs, sowie die zugehörigen weiteren Informationen, falls es sich bei den Ressourcen um Orte oder Lehrer handelt.
+
+
+--      Ermitteln Sie Informationen zu allen Lehrer, in deren Nachnamen der Buchstabe ‚m' bzw. ‚M' nicht vorkommt.
+
+
+--      Ermitteln Sie Informationen zu allen Lehrer, deren Nachnamen wenigstens acht Zeichen umfassen.
+
+
+--      Ermitteln Sie Informationen zu allen Lehrer, deren Nachnamen aus genau 9 Zeichen bestehen.
+
+
+--      Ermitteln Sie Informationen zu allen Lehrer, deren Nachnamen aus wenigstens sieben Zeichen besteht, es können auch mehr sein. Es ist sicherzustellen, dass sämtliche Zeichen Buchstaben des Alphabets inklusive Umlauten sowie Eszett sein müssen.
+
+
+--      Ermitteln Sie Informationen zu dem Lehrer, dessen mit dem MD5-Algorithmus gehashtes Passwort 3a29c08f700c1e95242dd458c28321ab lautet.
+
