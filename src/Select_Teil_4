@@ -1,4 +1,7 @@
 --      Erzeugen Sie die nachfolgende Ausgabe:
+
+-- 1 M Tommy Pietsch besitzt die Ressourcen ID: 47 und die Kennung: tp
+-- 2 ......
 SELECT concat(anrede, ' ', vorname, ' ', name, ' besitzt die Ressourcen ID: ', fk_t_ressource_id, ' und die Kennung: ',
               kennung) AS Lehrer
 FROM t_lehrer;
@@ -8,7 +11,7 @@ FROM t_lehrer;
 --      und der Formattierung:
 SELECT
   *,
-  concat(lower(left(vorname :: TEXT, 1)), upper(name)) AS nutzername
+  concat(lower(left(vorname, 1)), upper(name)) AS nutzername
 FROM t_lehrer;
 
 --      Ermitteln Sie die Anzahl sämtlicher Ressourcen_Ids, die auf Orte sowie Lehrer entfallen.
@@ -18,8 +21,3 @@ SELECT ((SELECT count(t_lehrer.fk_t_ressource_id)
          FROM t_ort)) AS "Anzahl aller Ressourcen IDs von Orten und Lehrern:"
 FROM t_lehrer, t_ort
 GROUP BY "Anzahl aller Ressourcen IDs von Orten und Lehrern:";
-
-SELECT (SELECT count(t_lehrer.fk_t_ressource_id)
-        FROM t_lehrer) +
-       (SELECT count(t_ort.fk_t_ressource_id)
-        FROM t_ort) AS "Anzahl aller Ressourcen IDs von Orten und Lehrern:"
