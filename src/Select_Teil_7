@@ -1,17 +1,34 @@
+-- todo:
+
 -- Ermitteln Sie für alle Lehrer, basierend auf ihrer jeweiligen Anrede, wie viele Lehrer mit dieser Anrede aktuell
 -- in der DB existieren sowie wie viele davon aktuell im aktiven Einsatz an der Fachschule sind
-Select anrede from t_lehrer group by anrede;
-SELECT count(SELECT count(name) from t_lehrer GROUP BY anrede) FROM t_lehrer GROUP BY aktiv ;
+SELECT anrede
+FROM t_lehrer
+GROUP BY anrede;
+SELECT count(SELECT count(name) FROM t_lehrer GROUP BY anrede)
+FROM t_lehrer
+GROUP BY aktiv;
 
-SELECT t_lehrer.anrede,
-(SELECT count(name) from t_lehrer GROUP BY anrede) as "Anzahl der Lehrer mit dieser Anrede",
-(SELECT count(name) FROM t_lehrer WHERE aktiv=TRUE GROUP BY anrede) as "Anzahl der aktiven Lehrer mit dieser Anrede"
-FROM t_lehrer GROUP BY anrede;
+SELECT
+  t_lehrer.anrede,
+  (SELECT count(name)
+   FROM t_lehrer
+   GROUP BY anrede) AS "Anzahl der Lehrer mit dieser Anrede",
+  (SELECT count(name)
+   FROM t_lehrer
+   WHERE aktiv = TRUE
+   GROUP BY anrede) AS "Anzahl der aktiven Lehrer mit dieser Anrede"
+FROM t_lehrer
+GROUP BY anrede;
 
 
-
-SELECT count(name) FROM t_lehrer WHERE aktiv=TRUE GROUP BY anrede;
-SELECT count(name) from t_lehrer GROUP BY anrede;
+SELECT count(name)
+FROM t_lehrer
+WHERE aktiv = TRUE
+GROUP BY anrede;
+SELECT count(name)
+FROM t_lehrer
+GROUP BY anrede;
 
 -- Ermitteln Sie die prozentualen Anteile, die die Lehrer, die Klassen, die Materialien sowie die Orte gemessen an den
 -- gesamten Ressourcen (also alle tatsächliche existierenden Ressourcen_IDs) ausmachen.

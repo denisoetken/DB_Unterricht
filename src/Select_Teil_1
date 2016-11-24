@@ -8,7 +8,7 @@ ORDER BY name ASC, fk_t_ressource_id DESC;
 -- der zugehörigen Klasse. Lehrer, die keine Klassenlehrer sind sollen  zuerst angezeigt werden.
 SELECT *
 FROM t_lehrer
-ORDER BY fk_t_klasse_fk_t_ressource_id DESC NULLS LAST ;
+ORDER BY fk_t_klasse_fk_t_ressource_id DESC NULLS LAST;
 
 --      Ermitteln Sie sämtliche Informationen  zu Lehrern, sortieren Sie dabei absteigend nach der Anrede,
 --      aufsteigend nach dem Nachnamen sowie aufsteigend nach dem Vornamen.
