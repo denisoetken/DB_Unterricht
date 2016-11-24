@@ -1,12 +1,14 @@
---      Lassen Sie sich sämtliche Daten zu Lehrern anzeigen. Sortieren Sie dabei aufsteigend nach Nachnamen, sowie, bei identischen Nachname, absteigend nach zugehöriger RessourcenID.
+--      Lassen Sie sich sämtliche Daten zu Lehrern anzeigen. Sortieren Sie dabei aufsteigend nach Nachnamen, sowie
+--  bei identischen Nachname, absteigend nach zugehöriger RessourcenID.
 SELECT *
 FROM t_lehrer
 ORDER BY name ASC, fk_t_ressource_id DESC;
 
---      Ermitteln Sie sämtliche Informationen  zu Lehrern, sortieren Sie dabei absteigend nach der Identifikationsnummer der zugehörigen Klasse. Lehrer, die keine Klassenlehrer sind sollen  zuerst angezeigt werden.
+--      Ermitteln Sie sämtliche Informationen  zu Lehrern, sortieren Sie dabei absteigend nach der Identifikationsnummer
+-- der zugehörigen Klasse. Lehrer, die keine Klassenlehrer sind sollen  zuerst angezeigt werden.
 SELECT *
 FROM t_lehrer
-ORDER BY fk_t_klasse_fk_t_ressource_id DESC;
+ORDER BY fk_t_klasse_fk_t_ressource_id DESC NULLS LAST ;
 
 --      Ermitteln Sie sämtliche Informationen  zu Lehrern, sortieren Sie dabei absteigend nach der Anrede,
 --      aufsteigend nach dem Nachnamen sowie aufsteigend nach dem Vornamen.

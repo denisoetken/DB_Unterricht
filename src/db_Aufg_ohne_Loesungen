@@ -135,13 +135,37 @@ FROM t_lehrer
 WHERE name ~* '[a-z]{8,}';
 
 --      Ermitteln Sie Informationen zu allen Lehrer, deren Nachnamen aus genau 9 Zeichen bestehen.
-
+SELECT *
+FROM t_lehrer
+WHERE name ~* '^[a-z]{9}$';
 
 --      Ermitteln Sie Informationen zu allen Lehrer, deren Nachnamen aus wenigstens sieben Zeichen besteht,
 --      es können auch mehr sein. Es ist sicherzustellen, dass sämtliche Zeichen Buchstaben des Alphabets inklusive
 --      Umlauten sowie Eszett sein müssen.
-
+SELECT *
+FROM t_lehrer
+WHERE name ~* '^[a-z,ä,ü,ö,ß]{7,}$';
 
 --      Ermitteln Sie Informationen zu dem Lehrer, dessen mit dem MD5-Algorithmus gehashtes Passwort
 --      3a29c08f700c1e95242dd458c28321ab lautet.
+SELECT *
+FROM t_lehrer
+WHERE MD5(passwort) = '3a29c08f700c1e95242dd458c28321ab'
 
+-- Ermitteln Sie für alle Lehrer, basierend auf ihrer jeweiligen Anrede, wie viele Lehrer mit dieser Anrede aktuell
+-- in der DB existieren sowie wie viele davon aktuell im aktiven Einsatz an der Fachschule sind.
+
+
+-- Ermitteln Sie die prozentualen Anteile, die die Lehrer, die Klassen, die Materialien sowie die Orte gemessen an den
+-- gesamten Ressourcen (also alle tatsächliche existierenden Ressourcen_IDs) ausmachen.
+
+
+-- Wie das obige Resultat zeigt, ergeben die Anteile der Lehrer, Klassen, Materialien sowie Orte zusammengenommen
+--  weniger als 1 bzw 100%. Modifizieren Sie Ihre obige Abfrage so, dass die prozentualen Anteile der Lehrer, Klassen,
+--  Materialen und Orte gegenüber der Summe der Lehrer, Klassen, Materialien und Orte angezeigt wird. So sollte auch die
+--  Summe der prozentualen Anteile 1 bzw. 100% ergeben. Runden Sie auf zwei Nachkommastellen.
+
+
+-- Erstellen Sie eine Abfrage, in der die Nachnamen der Lehrer alphabetisch aufsteigend sortiert werden sollen.
+-- Es soll allerdings lediglich jeder zweite, „ungerade“ Nachname ausgegeben werden. Also der 1. Name, danach der 3. Name usw…
+-- Wir nehmen für diese Aufgabe an, dass sich alle Nachnamen voneinander unterscheiden. Hinweis: Modulo-Operator.

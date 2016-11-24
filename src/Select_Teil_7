@@ -1,0 +1,28 @@
+-- Ermitteln Sie für alle Lehrer, basierend auf ihrer jeweiligen Anrede, wie viele Lehrer mit dieser Anrede aktuell
+-- in der DB existieren sowie wie viele davon aktuell im aktiven Einsatz an der Fachschule sind
+Select anrede from t_lehrer group by anrede;
+SELECT count(SELECT count(name) from t_lehrer GROUP BY anrede) FROM t_lehrer GROUP BY aktiv ;
+
+SELECT t_lehrer.anrede,
+(SELECT count(name) from t_lehrer GROUP BY anrede) as "Anzahl der Lehrer mit dieser Anrede",
+(SELECT count(name) FROM t_lehrer WHERE aktiv=TRUE GROUP BY anrede) as "Anzahl der aktiven Lehrer mit dieser Anrede"
+FROM t_lehrer GROUP BY anrede;
+
+
+
+SELECT count(name) FROM t_lehrer WHERE aktiv=TRUE GROUP BY anrede;
+SELECT count(name) from t_lehrer GROUP BY anrede;
+
+-- Ermitteln Sie die prozentualen Anteile, die die Lehrer, die Klassen, die Materialien sowie die Orte gemessen an den
+-- gesamten Ressourcen (also alle tatsächliche existierenden Ressourcen_IDs) ausmachen.
+
+
+-- Wie das obige Resultat zeigt, ergeben die Anteile der Lehrer, Klassen, Materialien sowie Orte zusammengenommen
+--  weniger als 1 bzw 100%. Modifizieren Sie Ihre obige Abfrage so, dass die prozentualen Anteile der Lehrer, Klassen,
+--  Materialen und Orte gegenüber der Summe der Lehrer, Klassen, Materialien und Orte angezeigt wird. So sollte auch die
+--  Summe der prozentualen Anteile 1 bzw. 100% ergeben. Runden Sie auf zwei Nachkommastellen.
+
+
+-- Erstellen Sie eine Abfrage, in der die Nachnamen der Lehrer alphabetisch aufsteigend sortiert werden sollen.
+-- Es soll allerdings lediglich jeder zweite, „ungerade“ Nachname ausgegeben werden. Also der 1. Name, danach der 3. Name usw…
+-- Wir nehmen für diese Aufgabe an, dass sich alle Nachnamen voneinander unterscheiden. Hinweis: Modulo-Operator.

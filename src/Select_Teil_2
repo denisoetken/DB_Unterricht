@@ -3,14 +3,16 @@ SELECT wochentag
 FROM t_stunde
 GROUP BY wochentag;
 
---      Lassen Sie sich zu jedem Wochentag die Uhrzeit anzeigen, zu der die letzte Stunde des jeweiligen Tages endet. Sortieren Sie die Wochentage absteigend. Arbeiten Sie ohne Gruppierung!
+--      Lassen Sie sich zu jedem Wochentag die Uhrzeit anzeigen, zu der die letzte Stunde des jeweiligen Tages endet.
+--      Sortieren Sie die Wochentage absteigend. Arbeiten Sie ohne Gruppierung!
 SELECT DISTINCT ON (wochentag)
   wochentag,
   ende
 FROM t_stunde
 ORDER BY wochentag DESC, ende DESC;
 
---      Ermitteln Sie zu jeder Personengruppe, basierend auf der Anrede, die jeweils höchste zugeordnete Ressourcen_ID, geben Sie diese beiden Werte aus! Arbeiten Sie ohne Gruppierung!
+--      Ermitteln Sie zu jeder Personengruppe, basierend auf der Anrede, die jeweils höchste zugeordnete Ressourcen_ID,
+--      geben Sie diese beiden Werte aus! Arbeiten Sie ohne Gruppierung!
 SELECT DISTINCT ON (anrede)
   anrede,
   fk_t_ressource_id
